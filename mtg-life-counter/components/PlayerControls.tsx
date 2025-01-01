@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-const Player = () => {
+const PlayerControls = () => {
     const [life, setLife] = useState<number>(20);
     const [count, setCount] = useState<number>(0);
     const [showCount, setShowCount] = useState<boolean>(false);
@@ -30,14 +30,12 @@ const Player = () => {
     }
 
     return (
-        <>
-            <View style={styles.ghost}>
-                {showCount &&
-                    <Text style={styles.count}>
-                        {count > 0 ? "+" : ""} {count}
-                    </Text>
-                }
-            </View>
+        <View style={styles.container}>
+            {showCount &&
+                <Text style={styles.count}>
+                    {count > 0 ? "+" : ""} {count}
+                </Text>
+            }
             <View style={styles.controls}>
                 <Pressable
                     onPress={onDecrementLife}
@@ -51,15 +49,14 @@ const Player = () => {
                     <Text style={styles.unary}>+</Text>
                 </Pressable>
             </View>
-        </>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    ghost: {
-        flex: 1,
-        flexDirection: 'column',
+    container: {
         justifyContent: 'flex-end',
+        alignItems: 'center',
     },
     count: {
         fontSize: 40,
@@ -77,7 +74,8 @@ const styles = StyleSheet.create({
         fontSize: 64,
         color: 'black',
         padding: 16,
-    }
+    },
+
 });
 
-export default Player;
+export default PlayerControls;

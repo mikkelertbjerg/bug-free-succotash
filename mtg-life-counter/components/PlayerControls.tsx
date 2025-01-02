@@ -1,14 +1,21 @@
 import { useRef, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import DecrementButton from "./DecrementButton";
+import IncrementButton from "./IncrementButton";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-const PlayerControls = () => {
-    const [life, setLife] = useState<number>(20);
+type Props = {
+    life: number,
+}
+
+const PlayerControls = ({ life }: Props) => {
+    const [_life, setLife] = useState<number>(life);
     const [count, setCount] = useState<number>(0);
     const [showCount, setShowCount] = useState<boolean>(false);
     const timeoutRef = useRef<any>();
 
     const onIncrementLife = () => {
-        setLife(life + 1);
+        setLife(_life + 1);
         setCount(count + 1);
         setShowCount(true);
         clearTimeout(timeoutRef.current)
@@ -19,7 +26,7 @@ const PlayerControls = () => {
     }
 
     const onDecrementLife = () => {
-        setLife(life - 1);
+        setLife(_life - 1);
         setCount(count - 1);
         setShowCount(true);
         clearTimeout(timeoutRef.current)
@@ -37,17 +44,12 @@ const PlayerControls = () => {
                 </Text>
             }
             <View style={styles.controls}>
-                <Pressable
-                    onPress={onDecrementLife}
-                >
-                    <Text style={styles.unary}>-</Text>
-                </Pressable>
-                <Text style={styles.life}>{life}</Text>
-                <Pressable
-                    onPress={onIncrementLife}
-                >
-                    <Text style={styles.unary}>+</Text>
-                </Pressable>
+                <DecrementButton onPress={onDecrementLife} />
+                <Text style={styles.life}>{_life}</Text>
+                <IncrementButton onPress={onIncrementLife} />
+            </View>
+            <View style={styles.icon}>
+                <Ionicons name="heart" size={24} color="black" />
             </View>
         </View>
     );
@@ -55,25 +57,28 @@ const PlayerControls = () => {
 
 const styles = StyleSheet.create({
     container: {
+        display: 'flex',
         alignItems: 'center',
+        flexDirection: 'column',
+    },
+    controls: {
+        flex: 3,
+        alignItems: 'center',
+        flexDirection: 'row',
     },
     count: {
         fontSize: 40,
+        flex: 1,
+        alignItems: 'flex-end',
     },
-    controls: {
-        flexDirection: 'row',
+    icon: {
+        flex: 1,
+        alignItems: 'center',
     },
     life: {
-        fontSize: 64,
+        fontSize: 120,
         color: 'black',
-        padding: 16,
     },
-    unary: {
-        fontSize: 64,
-        color: 'black',
-        padding: 16,
-    },
-
 });
 
 export default PlayerControls;

@@ -1,15 +1,23 @@
 import PlayerControls from "@/components/PlayerControls";
 import PlayerBoard from "@/components/PlayerBoard";
 import { StyleSheet, View } from "react-native";
+import PlayerOptions from "@/components/PlayerOptions";
+import { useState } from "react";
 
 export default function Index() {
+  const [life, setLife] = useState<number>(20);
+  const onSetLife = () => {
+
+  }
+
   return (
     <View style={styles.container}>
       <PlayerBoard afinity="forest" orientation="south">
-        <PlayerControls />
+        <PlayerControls life={life} />
       </PlayerBoard>
+      <PlayerOptions />
       <PlayerBoard afinity="plains" orientation="north">
-        <PlayerControls />
+        <PlayerControls life={life} />
       </PlayerBoard>
     </View>
   );
@@ -17,9 +25,7 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    flexShrink: 1,
-    justifyContent: 'center',
-    alignItems: 'stretch',
+    flex: 1,
+    flexDirection: 'column',
   },
 })

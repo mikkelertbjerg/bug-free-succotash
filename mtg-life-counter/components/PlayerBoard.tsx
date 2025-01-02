@@ -7,23 +7,49 @@ type Props = PropsWithChildren<{
 }>;
 
 const PlayerBoard = ({ afinity, orientation, children }: Props) => {
-    return (
-            <View style={orientation === 'east' ? styles.east :
-                orientation === 'south' ? styles.south :
-                    orientation === 'west' ? styles.west : {}
-            }>
-                <View style={afinity === "forest" ? styles.forest :
-                    afinity === 'island' ? styles.island :
-                        afinity === 'mountain' ? styles.mountain :
-                            afinity === "plains" ? styles.plains : styles.swamp}>
-                    {children}
-                </View>
-            </View>
-    )
+    const setOrientation = (orientation: Orientation): object => {
+        switch (orientation) {
+            case "north":
+                return styles.north;
+            case "east":
+                return styles.east;
+            case "south":
+                return styles.south;
+            case "west":
+                return styles.west;
+        }
+    }
 
+    const setAfinity = (afinity: Afinity): object => {
+        switch (afinity) {
+            case "forest":
+                return styles.forest;
+            case "plains":
+                return styles.plains;
+            case "island":
+                return styles.island;
+            case "swamp":
+                return styles.swamp;
+            case "mountain":
+                return styles.mountain;
+        }
+    }
+
+    return (
+        <View style={[styles.board, setAfinity(afinity), setOrientation(orientation)]}>
+            {children}
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
+    board: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    north: {
+    },
     east: {
         transform: [{ rotate: '90deg' }]
     },

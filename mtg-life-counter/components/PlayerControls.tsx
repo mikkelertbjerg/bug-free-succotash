@@ -55,14 +55,12 @@ const PlayerControls = () => {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'flex-end',
         alignItems: 'center',
     },
     count: {
         fontSize: 40,
     },
     controls: {
-        flex: 1,
         flexDirection: 'row',
     },
     life: {

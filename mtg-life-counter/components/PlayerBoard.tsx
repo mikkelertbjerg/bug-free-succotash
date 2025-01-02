@@ -1,12 +1,14 @@
 import { PropsWithChildren } from "react";
 import { StyleSheet, View } from "react-native";
+import PlayerControls from "./PlayerControls";
 
 type Props = PropsWithChildren<{
+    life: number,
     afinity: Afinity,
     orientation: Orientation,
 }>;
 
-const PlayerBoard = ({ afinity, orientation, children }: Props) => {
+const PlayerBoard = ({ life, afinity, orientation, children }: Props) => {
     const setOrientation = (orientation: Orientation): object => {
         switch (orientation) {
             case "north":
@@ -37,7 +39,7 @@ const PlayerBoard = ({ afinity, orientation, children }: Props) => {
 
     return (
         <View style={[styles.board, setAfinity(afinity), setOrientation(orientation)]}>
-            {children}
+            <PlayerControls life={life} afinity={afinity} />
         </View>
     )
 }

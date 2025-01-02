@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import DecrementButton from "./DecrementButton";
-import IncrementButton from "./IncrementButton";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import UnaryOperatorButton from "./UnaryOperatorButton";
 
 type Props = {
-    life: number,
+    afinity: Afinity;
+    life: number;
 }
 
-const PlayerControls = ({ life }: Props) => {
+const PlayerControls = ({ life, afinity }: Props) => {
     const [_life, setLife] = useState<number>(life);
     const [count, setCount] = useState<number>(0);
     const [showCount, setShowCount] = useState<boolean>(false);
@@ -39,16 +39,16 @@ const PlayerControls = ({ life }: Props) => {
     return (
         <View style={styles.container}>
             {showCount &&
-                <Text style={styles.count}>
+                <Text style={[styles.count, afinity === 'plains' ? styles.blackCount : styles.whiteCount]}>
                     {count > 0 ? "+" : ""} {count}
                 </Text>
             }
             <View style={styles.controls}>
-                <DecrementButton onPress={onDecrementLife} />
+                <UnaryOperatorButton afinity={afinity} unaryOperator='minus' onPress={onDecrementLife} />
                 <Text style={styles.life}>{_life}</Text>
-                <IncrementButton onPress={onIncrementLife} />
+                <UnaryOperatorButton afinity={afinity} unaryOperator='plus' onPress={onIncrementLife} />
             </View>
-            <Ionicons name="heart" size={40} color="black" />
+            <Ionicons name="heart" size={32} color={afinity === 'plains' ? 'black' : 'white'} />
         </View>
     );
 }
@@ -60,17 +60,22 @@ const styles = StyleSheet.create({
     controls: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
     },
     count: {
         fontSize: 40,
     },
+    whiteCount: {
+        color: 'white',
+    },
+    blackCount: {
+        color: 'black'
+    },
     life: {
         fontSize: 100,
         color: 'white',
-        textShadowRadius: 10,
         textShadowColor: 'black',
-        textShadowOffset: { width: 3, height: 1 },
+        textShadowRadius: 8,
+        textShadowOffset: { width: 2, height: 2 },
         paddingHorizontal: 40,
     },
 });

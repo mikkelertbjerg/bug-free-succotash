@@ -5,18 +5,18 @@ import PlayersButton from "./PlayersButton";
 import LifeButton from "./LifeButton";
 
 type Props = {
-    onReset?: () => void,
-    onDiceRoll?: () => void,
-    onPlayersChange?: () => void,
-    onLifeChange?: () => void,
+    onResetButtonPressed?: () => void;
+    onDiceButtonPressed?: () => void;
+    onPlayersButtonPressed?: () => void;
+    onLifeButtonPressed?: () => void;
 }
-const PlayerOptions = ({ onReset, onDiceRoll, onPlayersChange, onLifeChange }: Props) => {
+const PlayerOptions = ({ onResetButtonPressed, onDiceButtonPressed, onPlayersButtonPressed, onLifeButtonPressed }: Props) => {
     return (
         <View style={styles.container}>
-            <ResetButton onPress={onReset} />
-            <DiceButton onPress={onDiceRoll} />
-            <PlayersButton onPress={onPlayersChange} />
-            <LifeButton onPress={onLifeChange} />
+            <ResetButton onPress={onResetButtonPressed} />
+            <DiceButton onPress={onDiceButtonPressed} />
+            <PlayersButton onPress={onPlayersButtonPressed} />
+            <LifeButton onPress={onLifeButtonPressed} />
         </View>
     )
 }

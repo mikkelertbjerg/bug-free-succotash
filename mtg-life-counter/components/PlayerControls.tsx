@@ -48,36 +48,30 @@ const PlayerControls = ({ life }: Props) => {
                 <Text style={styles.life}>{_life}</Text>
                 <IncrementButton onPress={onIncrementLife} />
             </View>
-            <View style={styles.icon}>
-                <Ionicons name="heart" size={24} color="black" />
-            </View>
+            <Ionicons name="heart" size={40} color="black" />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
         alignItems: 'center',
-        flexDirection: 'column',
     },
     controls: {
-        flex: 3,
-        alignItems: 'center',
         flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     count: {
         fontSize: 40,
-        flex: 1,
-        alignItems: 'flex-end',
-    },
-    icon: {
-        flex: 1,
-        alignItems: 'center',
     },
     life: {
-        fontSize: 120,
-        color: 'black',
+        fontSize: 100,
+        color: 'white',
+        textShadowRadius: 10,
+        textShadowColor: 'black',
+        textShadowOffset: { width: 3, height: 1 },
+        paddingHorizontal: 40,
     },
 });
 

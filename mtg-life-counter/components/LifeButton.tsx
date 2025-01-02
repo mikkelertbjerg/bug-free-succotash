@@ -1,5 +1,4 @@
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { Pressable } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 type Props = {
     onPress?: () => void;
@@ -7,9 +6,7 @@ type Props = {
 
 const LifeButton = ({ onPress }: Props) => {
     return (
-        <Pressable onPress={onPress}>
-            <FontAwesome6 name="heart" size={24} color="white" />
-        </Pressable>
+        <Ionicons name="heart-outline" size={24} color="white" onPress={onPress}/>
     );
 }
 

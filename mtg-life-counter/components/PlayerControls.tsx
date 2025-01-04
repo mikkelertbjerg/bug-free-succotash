@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import UnaryOperatorButton from "./UnaryOperatorButton";
+import useAfinity from "@/hooks/useAfinity";
 
 type Props = {
     afinity: Afinity;
@@ -9,6 +10,7 @@ type Props = {
 }
 
 const PlayerControls = ({ life, afinity }: Props) => {
+    const _afinity = useAfinity(afinity);
     const [_life, setLife] = useState<number>(life);
     const [count, setCount] = useState<number>(0);
     const [showCount, setShowCount] = useState<boolean>(false);
@@ -38,45 +40,47 @@ const PlayerControls = ({ life, afinity }: Props) => {
 
     return (
         <View style={styles.container}>
-            {showCount &&
-                <Text style={[styles.count, afinity === 'plains' ? styles.blackCount : styles.whiteCount]}>
+            <View style={styles.button}>
+                <UnaryOperatorButton afinity={afinity} unaryOperator='minus' onPress={onDecrementLife} />
+            </View>
+            <View style={styles.content}>
+                <Text style={showCount ? [styles.count, afinity === 'plains' ? { color: '#616161' } : { color: 'white' }] : [styles.count, { color: _afinity.backgroundColor }]}>
                     {count > 0 ? "+" : ""} {count}
                 </Text>
-            }
-            <View style={styles.controls}>
-                <UnaryOperatorButton afinity={afinity} unaryOperator='minus' onPress={onDecrementLife} />
                 <Text style={styles.life}>{_life}</Text>
+                <Ionicons name="heart" size={32} color={afinity === 'plains' ? '#616161' : 'white'} />
+            </View>
+            <View style={styles.button}>
                 <UnaryOperatorButton afinity={afinity} unaryOperator='plus' onPress={onIncrementLife} />
             </View>
-            <Ionicons name="heart" size={32} color={afinity === 'plains' ? 'black' : 'white'} />
+
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
-    },
-    controls: {
+        flex: 1,
         flexDirection: 'row',
+    },
+    button: {
+        flex: 1,
+    },
+    content: {
+        flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     count: {
         fontSize: 40,
     },
-    whiteCount: {
-        color: 'white',
-    },
-    blackCount: {
-        color: 'black'
-    },
     life: {
+        height: '50%',
         fontSize: 100,
         color: 'white',
         textShadowColor: 'black',
         textShadowRadius: 8,
         textShadowOffset: { width: 2, height: 2 },
-        paddingHorizontal: 40,
     },
 });
 

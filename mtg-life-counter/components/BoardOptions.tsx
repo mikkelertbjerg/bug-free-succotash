@@ -2,19 +2,23 @@ import { Pressable, StyleSheet, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 type Props = {
-    onReset?: () => void;
-    onDiceButtonPressed?: () => void;
+    onReset: () => void;
+    onRollDice: () => void;
+    rolling: boolean;
     onPlayersButtonPressed?: () => void;
-    onShowLifeOptions?: () => void;
+    onShowLifeOptions: () => void;
 }
-const BoardOptions = ({ onReset, onDiceButtonPressed, onPlayersButtonPressed, onShowLifeOptions }: Props) => {
+const BoardOptions = ({ onReset, onRollDice, rolling, onPlayersButtonPressed, onShowLifeOptions }: Props) => {
     return (
         <View style={styles.container}>
             <Pressable style={styles.button} onPress={onReset}>
                 <Ionicons name="reload" style={styles.text} />
             </Pressable>
-            <Pressable style={styles.button}>
-                <Ionicons name="dice-outline" style={styles.text} />
+            <Pressable style={styles.button} onPress={onRollDice}>
+                {rolling ?
+                    <Ionicons name="dice" style={styles.text} /> :
+                    <Ionicons name="dice-outline" style={styles.text} />
+                }
             </Pressable>
             <Pressable style={styles.button}>
                 <Ionicons name="people-sharp" style={styles.text} />

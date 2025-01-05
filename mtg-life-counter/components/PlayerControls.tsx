@@ -44,7 +44,7 @@ const PlayerControls = ({ afinity, currentLife, setCurrentLife }: Props) => {
                 <UnaryOperatorButton afinity={afinity} unaryOperator='minus' onPress={onDecrementLife} />
             </View>
             <View style={styles.content}>
-                <Text style={showCount ? [styles.count, afinity === 'plains' ? styles.dark : styles.light] : [styles.count, { color: _afinity.backgroundColor }]}>
+                <Text style={showCount ? [styles.count, afinity === 'plains' ? styles.dark : styles.light] : [styles.count, { opacity: 0 }]}>
                     {count > 0 ? "+" : ""} {count}
                 </Text>
                 <Text style={styles.life}>{currentLife}</Text>

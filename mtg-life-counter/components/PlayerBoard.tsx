@@ -1,6 +1,5 @@
 import { PropsWithChildren, useContext } from "react";
 import { StyleSheet, View } from "react-native";
-import PlayerControls from "./PlayerControls";
 import useAfinity from "@/hooks/useAfinity";
 
 type Props = PropsWithChildren<{
@@ -25,7 +24,7 @@ const PlayerBoard = ({ afinity, orientation, children }: Props) => {
 
     return (
         <View style={[styles.board, _afinity, setOrientation(orientation)]}>
-            <PlayerControls afinity={afinity} />
+            {children}
         </View>
     )
 }

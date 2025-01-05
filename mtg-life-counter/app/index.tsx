@@ -1,37 +1,62 @@
 import PlayerBoard from "@/components/PlayerBoard";
 import { StyleSheet, View } from "react-native";
-import PlayerOptions from "@/components/PlayerOptions";
+import BoardOptions from "@/components/BoardOptions";
 import LifeOptions from "@/components/LifeOptions";
-import { useContext, useState } from "react";
-import { OptionsContext } from "@/context/OptionsContext";
+import { useState } from "react";
+import PlayerControls from "@/components/PlayerControls";
 
 export default function Index() {
-  const options = useContext(OptionsContext);
-  const [showPlayerOptions, setPlayerShowOptions] = useState<boolean>(true);
-  const [showLifeOptions, setShowLifeOptions] = useState<boolean>(false);
+  // Board options
+  const [showBoardOptions, setShowBoardOptions] = useState<boolean>(true);
 
-  const onCloseOptions = () => {
-    setShowLifeOptions(false);
-    setPlayerShowOptions(true);
-  }
+  // Life options
+  const [showLifeOptions, setShowLifeOptions] = useState<boolean>(false);
+  const [defaultLife, setDefaultLife] = useState<number>(20);
 
   const onLifeButtonPressed = () => {
-    setPlayerShowOptions(false);
+    setShowBoardOptions(false);
     setShowLifeOptions(true);
   };
 
-  const onReset = () => {
+  const onSetDefaultLife = (life: number) => {
+    setDefaultLife(life);
+    setPlayerACurrentLife(life);
+    setPlayerBCurrentLife(life);
+  }
 
+  // Players options
+
+  // Reset options
+  const [reset, setReset] = useState<boolean>(false);
+
+  // Dice options
+
+  // Player A
+  const [playerACurrentLife, setPlayerACurrentLife] = useState<number>(defaultLife);
+
+  // Player B
+  const [playerBCurrentLife, setPlayerBCurrentLife] = useState<number>(defaultLife);
+
+  const onCloseOptions = () => {
+    setShowLifeOptions(false);
+    setShowBoardOptions(true);
+  }
+
+  const onReset = () => {
+    setPlayerACurrentLife(defaultLife);
+    setPlayerBCurrentLife(defaultLife);
   }
 
   return (
     <View style={styles.container}>
-      <OptionsContext.Provider value={options}>
-        <PlayerBoard afinity="forest" orientation="south" />
-        {showPlayerOptions && <PlayerOptions onResetButtonPressed={onReset} onShowLifeOptions={onLifeButtonPressed} />}
-        {showLifeOptions && <LifeOptions onClose={onCloseOptions} />}
-        <PlayerBoard afinity="plains" orientation="north" />
-      </OptionsContext.Provider>
+      <PlayerBoard afinity="swamp" orientation="south">
+        <PlayerControls afinity="swamp" currentLife={playerACurrentLife} setCurrentLife={setPlayerACurrentLife} />
+      </PlayerBoard>
+      {showBoardOptions && <BoardOptions onReset={onReset} onShowLifeOptions={onLifeButtonPressed} />}
+      {showLifeOptions && <LifeOptions onSetDefaultLife={onSetDefaultLife} onClose={onCloseOptions} />}
+      <PlayerBoard afinity="plains" orientation="north">
+        <PlayerControls afinity="plains" currentLife={playerBCurrentLife} setCurrentLife={setPlayerBCurrentLife} />
+      </PlayerBoard>
     </View>
 
   );

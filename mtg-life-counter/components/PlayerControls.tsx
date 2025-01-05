@@ -1,19 +1,17 @@
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import UnaryOperatorButton from "./UnaryOperatorButton";
 import useAfinity from "@/hooks/useAfinity";
-import { OptionsContext } from "@/context/OptionsContext";
 
 type Props = {
     afinity: Afinity;
+    currentLife: number;
+    setCurrentLife: (life: number) => void;
 }
 
-const PlayerControls = ({ afinity }: Props) => {
+const PlayerControls = ({ afinity, currentLife, setCurrentLife }: Props) => {
     const _afinity = useAfinity(afinity);
-    const options = useContext(OptionsContext);
-
-    const [currentLife, setCurrentLife] = useState<number>(options.life);
     const [count, setCount] = useState<number>(0);
     const [showCount, setShowCount] = useState<boolean>(false);
     const timeoutRef = useRef<any>();

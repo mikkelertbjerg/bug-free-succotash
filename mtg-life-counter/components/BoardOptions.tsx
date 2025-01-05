@@ -5,15 +5,15 @@ import PlayersButton from "./PlayersButton";
 import LifeButton from "./LifeButton";
 
 type Props = {
-    onResetButtonPressed?: () => void;
+    onReset?: () => void;
     onDiceButtonPressed?: () => void;
     onPlayersButtonPressed?: () => void;
     onShowLifeOptions?: () => void;
 }
-const PlayerOptions = ({ onResetButtonPressed, onDiceButtonPressed, onPlayersButtonPressed, onShowLifeOptions }: Props) => {
+const BoardOptions = ({ onReset, onDiceButtonPressed, onPlayersButtonPressed, onShowLifeOptions }: Props) => {
     return (
         <View style={styles.container}>
-            <ResetButton onPress={onResetButtonPressed} />
+            <ResetButton onPress={onReset} />
             <DiceButton onPress={onDiceButtonPressed} />
             <PlayersButton onPress={onPlayersButtonPressed} />
             <LifeButton onPress={onShowLifeOptions} />
@@ -24,7 +24,7 @@ const PlayerOptions = ({ onResetButtonPressed, onDiceButtonPressed, onPlayersBut
 const styles = StyleSheet.create({
     container: {
         maxHeight: 56,
-        backgroundColor: '#141414',
+        backgroundColor: '#424242',
         display: 'flex',
         flexDirection: 'row',
         flexGrow: 1,
@@ -34,4 +34,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PlayerOptions;
+export default BoardOptions;

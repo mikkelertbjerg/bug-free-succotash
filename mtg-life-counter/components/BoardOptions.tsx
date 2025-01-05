@@ -1,8 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import DiceButton from "./DiceButton";
-import ResetButton from "./ResetButton";
-import PlayersButton from "./PlayersButton";
-import LifeButton from "./LifeButton";
+import { Pressable, StyleSheet, View } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 type Props = {
     onReset?: () => void;
@@ -13,10 +10,18 @@ type Props = {
 const BoardOptions = ({ onReset, onDiceButtonPressed, onPlayersButtonPressed, onShowLifeOptions }: Props) => {
     return (
         <View style={styles.container}>
-            <ResetButton onPress={onReset} />
-            <DiceButton onPress={onDiceButtonPressed} />
-            <PlayersButton onPress={onPlayersButtonPressed} />
-            <LifeButton onPress={onShowLifeOptions} />
+            <Pressable style={styles.button} onPress={onReset}>
+                <Ionicons name="reload" style={styles.text} />
+            </Pressable>
+            <Pressable style={styles.button}>
+                <Ionicons name="dice-outline" style={styles.text} />
+            </Pressable>
+            <Pressable style={styles.button}>
+                <Ionicons name="people-sharp" style={styles.text} />
+            </Pressable>
+            <Pressable style={styles.button} onPress={onShowLifeOptions}>
+                <Ionicons name="heart-outline" style={styles.text} />
+            </Pressable>
         </View>
     )
 }
@@ -31,6 +36,14 @@ const styles = StyleSheet.create({
         flexShrink: 1,
         alignItems: 'center',
         justifyContent: 'space-around',
+    },
+    button: {
+        flex: 1,
+    },
+    text: {
+        fontSize: 24,
+        color: 'white',
+        textAlign: 'center',
     }
 })
 

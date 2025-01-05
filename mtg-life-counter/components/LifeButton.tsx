@@ -6,7 +6,7 @@ type Props = {
 
 const LifeButton = ({ onPress }: Props) => {
     return (
-        <Ionicons name="heart-outline" size={24} color="white" onPress={onPress}/>
+        <Ionicons name="heart-outline" size={24} color="white" onPress={onPress} />
     );
 }
 

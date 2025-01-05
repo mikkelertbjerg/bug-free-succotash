@@ -8,15 +8,15 @@ type Props = {
     onResetButtonPressed?: () => void;
     onDiceButtonPressed?: () => void;
     onPlayersButtonPressed?: () => void;
-    onLifeButtonPressed?: () => void;
+    onShowLifeOptions?: () => void;
 }
-const PlayerOptions = ({ onResetButtonPressed, onDiceButtonPressed, onPlayersButtonPressed, onLifeButtonPressed }: Props) => {
+const PlayerOptions = ({ onResetButtonPressed, onDiceButtonPressed, onPlayersButtonPressed, onShowLifeOptions }: Props) => {
     return (
         <View style={styles.container}>
             <ResetButton onPress={onResetButtonPressed} />
             <DiceButton onPress={onDiceButtonPressed} />
             <PlayersButton onPress={onPlayersButtonPressed} />
-            <LifeButton onPress={onLifeButtonPressed} />
+            <LifeButton onPress={onShowLifeOptions} />
         </View>
     )
 }

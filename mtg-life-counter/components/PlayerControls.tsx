@@ -1,23 +1,25 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import UnaryOperatorButton from "./UnaryOperatorButton";
 import useAfinity from "@/hooks/useAfinity";
+import { OptionsContext } from "@/context/OptionsContext";
 
 type Props = {
     afinity: Afinity;
-    life: number;
 }
 
-const PlayerControls = ({ life, afinity }: Props) => {
+const PlayerControls = ({ afinity }: Props) => {
     const _afinity = useAfinity(afinity);
-    const [_life, setLife] = useState<number>(life);
+    const options = useContext(OptionsContext);
+
+    const [currentLife, setCurrentLife] = useState<number>(options.life);
     const [count, setCount] = useState<number>(0);
     const [showCount, setShowCount] = useState<boolean>(false);
     const timeoutRef = useRef<any>();
 
     const onIncrementLife = () => {
-        setLife(_life + 1);
+        setCurrentLife(currentLife + 1);
         setCount(count + 1);
         setShowCount(true);
         clearTimeout(timeoutRef.current)
@@ -28,7 +30,7 @@ const PlayerControls = ({ life, afinity }: Props) => {
     }
 
     const onDecrementLife = () => {
-        setLife(_life - 1);
+        setCurrentLife(currentLife - 1);
         setCount(count - 1);
         setShowCount(true);
         clearTimeout(timeoutRef.current)
@@ -47,7 +49,7 @@ const PlayerControls = ({ life, afinity }: Props) => {
                 <Text style={showCount ? [styles.count, afinity === 'plains' ? { color: '#616161' } : { color: 'white' }] : [styles.count, { color: _afinity.backgroundColor }]}>
                     {count > 0 ? "+" : ""} {count}
                 </Text>
-                <Text style={styles.life}>{_life}</Text>
+                <Text style={styles.life}>{currentLife}</Text>
                 <Ionicons name="heart" size={32} color={afinity === 'plains' ? '#616161' : 'white'} />
             </View>
             <View style={styles.button}>

@@ -1,21 +1,19 @@
 import { StyleSheet, View } from "react-native";
 import LifeOption from "./LifeOption";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Dispatch, SetStateAction } from "react";
 
 type Props = {
-    onClose?: () => void;
-    onSetLife: (life: number) => void;
-    onMore?: () => void;
+    onClose: () => void;
 };
 
-const LifeOptions = ({ onClose, onSetLife, onMore }: Props) => {
+const LifeOptions = ({ onClose }: Props) => {
+
     return (
         <View style={styles.container}>
             <Ionicons name="close-outline" size={24} color="white" onPress={onClose} />
-            <LifeOption option={20} onPress={onSetLife} />
-            <LifeOption option={50} onPress={onSetLife} />
-            <Ionicons name="ellipsis-horizontal" size={24} color="white" onPress={onMore} />
+            <LifeOption onPress={onClose} life={20} />
+            <LifeOption onPress={onClose} life={50} />
+            <Ionicons name="ellipsis-horizontal" size={24} color="white" />
         </View>
     );
 }

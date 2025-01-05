@@ -1,16 +1,24 @@
-import { Dispatch, SetStateAction } from "react";
+import { OptionsContext } from "@/context/OptionsContext";
+import { useContext } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 
 type Props = {
-    option: number;
-    onPress: (life: number) => void;
+    life: number;
+    onPress: () => void;
 }
 
-const LifeOption = ({ option, onPress }: Props) => {
+const LifeOption = ({ life, onPress }: Props) => {
+    const options = useContext(OptionsContext);
+
+    const onChange = () => {
+        options.life = life;
+        onPress();
+    }
+
     return (
-        <Pressable onPress={() => onPress(option)}>
+        <Pressable onPress={onChange}>
             <Text style={styles.text}>
-                {option}
+                {life}
             </Text>
         </Pressable >
     )

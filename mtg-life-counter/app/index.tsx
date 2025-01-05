@@ -1,17 +1,13 @@
-import PlayerControls from "@/components/PlayerControls";
 import PlayerBoard from "@/components/PlayerBoard";
 import { StyleSheet, View } from "react-native";
 import PlayerOptions from "@/components/PlayerOptions";
-import { useState } from "react";
 import LifeOptions from "@/components/LifeOptions";
-import useForceUpdate from "@/hooks/useForceUpdate";
+import { useContext, useState } from "react";
+import { OptionsContext } from "@/context/OptionsContext";
 
 export default function Index() {
-  const forceUpdate = useForceUpdate();
-
+  const options = useContext(OptionsContext);
   const [showPlayerOptions, setPlayerShowOptions] = useState<boolean>(true);
-
-  const [defaultLife, setDefaultLife] = useState<number>(20);
   const [showLifeOptions, setShowLifeOptions] = useState<boolean>(false);
 
   const onCloseOptions = () => {
@@ -19,28 +15,25 @@ export default function Index() {
     setPlayerShowOptions(true);
   }
 
-  const onResetPressed = () => {
-    setDefaultLife(defaultLife);
-    forceUpdate();
-  }
   const onLifeButtonPressed = () => {
     setPlayerShowOptions(false);
     setShowLifeOptions(true);
   };
 
-  const onSetDefaultLife = (life: number) => {
-    setDefaultLife(life)
-    onCloseOptions();
-    forceUpdate();
+  const onReset = () => {
+
   }
 
   return (
     <View style={styles.container}>
-      <PlayerBoard life={defaultLife} afinity="forest" orientation="south" />
-      {showPlayerOptions && <PlayerOptions onResetButtonPressed={onResetPressed} onLifeButtonPressed={onLifeButtonPressed} />}
-      {showLifeOptions && <LifeOptions onClose={onCloseOptions} onSetLife={onSetDefaultLife} />}
-      <PlayerBoard life={defaultLife} afinity="plains" orientation="north" />
+      <OptionsContext.Provider value={options}>
+        <PlayerBoard afinity="forest" orientation="south" />
+        {showPlayerOptions && <PlayerOptions onResetButtonPressed={onReset} onShowLifeOptions={onLifeButtonPressed} />}
+        {showLifeOptions && <LifeOptions onClose={onCloseOptions} />}
+        <PlayerBoard afinity="plains" orientation="north" />
+      </OptionsContext.Provider>
     </View>
+
   );
 }
 

@@ -44,11 +44,11 @@ const PlayerControls = ({ afinity, currentLife, setCurrentLife }: Props) => {
                 <UnaryOperatorButton afinity={afinity} unaryOperator='minus' onPress={onDecrementLife} />
             </View>
             <View style={styles.content}>
-                <Text style={showCount ? [styles.count, afinity === 'plains' ? { color: '#616161' } : { color: 'white' }] : [styles.count, { color: _afinity.backgroundColor }]}>
+                <Text style={showCount ? [styles.count, afinity === 'plains' ? styles.dark : styles.light] : [styles.count, { color: _afinity.backgroundColor }]}>
                     {count > 0 ? "+" : ""} {count}
                 </Text>
                 <Text style={styles.life}>{currentLife}</Text>
-                <Ionicons name="heart" size={32} color={afinity === 'plains' ? '#616161' : 'white'} />
+                <Ionicons name="heart" size={32} style={afinity === 'plains' ? styles.dark : styles.light} />
             </View>
             <View style={styles.button}>
                 <UnaryOperatorButton afinity={afinity} unaryOperator='plus' onPress={onIncrementLife} />
@@ -82,6 +82,12 @@ const styles = StyleSheet.create({
         textShadowRadius: 8,
         textShadowOffset: { width: 2, height: 2 },
     },
+    light: {
+        color: 'white'
+    },
+    dark: {
+        color: '#616161'
+    }
 });
 
 export default PlayerControls;

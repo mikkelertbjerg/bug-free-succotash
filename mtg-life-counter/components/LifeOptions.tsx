@@ -1,14 +1,19 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useState } from "react";
+import React from "react";
+import LifeModal from "./LifeModal";
 
 type Props = {
     onClose: () => void;
-    onSetDefaultLife: (life: number) => void;
+    onSetStartingLife: (life: number) => void;
 };
 
-const LifeOptions = ({ onClose, onSetDefaultLife }: Props) => {
+const LifeOptions = ({ onClose, onSetStartingLife }: Props) => {
+    const [show, setShow] = useState<boolean>(false);
+
     const onPress = (life: number) => {
-        onSetDefaultLife(life);
+        onSetStartingLife(life);
         onClose();
     }
 
@@ -27,9 +32,14 @@ const LifeOptions = ({ onClose, onSetDefaultLife }: Props) => {
                     {50}
                 </Text>
             </Pressable>
-            <Pressable style={styles.button}>
+            <Pressable style={styles.button} onPress={() => setShow(true)}>
                 <Ionicons name="ellipsis-horizontal" style={styles.text} />
             </Pressable>
+            <LifeModal
+                onSetStartingLife={onPress}
+                setVisible={setShow}
+                visible={show}
+            />
         </View>
     );
 }

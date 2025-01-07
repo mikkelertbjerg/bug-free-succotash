@@ -12,15 +12,15 @@ export default function Index() {
 
   // Life options
   const [showLifeOptions, setShowLifeOptions] = useState<boolean>(false);
-  const [defaultLife, setDefaultLife] = useState<number>(20);
+  const [startingLife, setStartingLife] = useState<number>(20);
 
   const onLifeButtonPressed = () => {
     setShowBoardOptions(false);
     setShowLifeOptions(true);
   };
 
-  const onSetDefaultLife = (life: number) => {
-    setDefaultLife(life);
+  const onSetStartingLife = (life: number) => {
+    setStartingLife(life);
     setPlayerACurrentLife(life);
     setPlayerBCurrentLife(life);
   }
@@ -64,7 +64,6 @@ export default function Index() {
     }
 
     rollDice(); // final roll
-
     setShowWinner(true);
 
     await delay(2500);
@@ -73,11 +72,11 @@ export default function Index() {
   }
 
   // Player A
-  const [playerACurrentLife, setPlayerACurrentLife] = useState<number>(defaultLife);
+  const [playerACurrentLife, setPlayerACurrentLife] = useState<number>(startingLife);
   const [playerACurrentPip, setPlayerACurrentPip] = useState<number>(0);
 
   // Player B
-  const [playerBCurrentLife, setPlayerBCurrentLife] = useState<number>(defaultLife);
+  const [playerBCurrentLife, setPlayerBCurrentLife] = useState<number>(startingLife);
   const [playerBCurrentPip, setPlayerBCurrentPip] = useState<number>(0);
 
   const onCloseOptions = () => {
@@ -86,8 +85,8 @@ export default function Index() {
   }
 
   const onReset = () => {
-    setPlayerACurrentLife(defaultLife);
-    setPlayerBCurrentLife(defaultLife);
+    setPlayerACurrentLife(startingLife);
+    setPlayerBCurrentLife(startingLife);
   }
 
   return (
@@ -102,7 +101,7 @@ export default function Index() {
         }
       </PlayerBoard>
       {showBoardOptions && <BoardOptions onReset={onReset} onRollDice={onRollDice} rolling={rolling} onShowLifeOptions={onLifeButtonPressed} />}
-      {showLifeOptions && <LifeOptions onClose={onCloseOptions} onSetDefaultLife={onSetDefaultLife} />}
+      {showLifeOptions && <LifeOptions onClose={onCloseOptions} onSetStartingLife={onSetStartingLife} />}
       <PlayerBoard afinity="plains" orientation="north">
         {rolling ?
           <View style={styles.content}>

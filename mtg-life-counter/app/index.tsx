@@ -93,9 +93,7 @@ export default function Index() {
     <View style={styles.container}>
       <PlayerBoard afinity="swamp" orientation="south">
         {rolling ?
-          <View style={styles.content}>
-            <Dice afinity="swamp" pip={playerACurrentPip} winner={showWinner && playerACurrentPip > playerBCurrentPip} />
-          </View>
+          <Dice pip={playerACurrentPip} winner={showWinner && playerACurrentPip > playerBCurrentPip} />
           :
           <PlayerControls afinity="swamp" currentLife={playerACurrentLife} setCurrentLife={setPlayerACurrentLife} />
         }
@@ -104,9 +102,7 @@ export default function Index() {
       {showLifeOptions && <LifeOptions onClose={onCloseOptions} onSetStartingLife={onSetStartingLife} />}
       <PlayerBoard afinity="plains" orientation="north">
         {rolling ?
-          <View style={styles.content}>
-            <Dice afinity="plains" pip={playerBCurrentPip} winner={showWinner && playerBCurrentPip > playerACurrentPip} />
-          </View>
+          <Dice pip={playerBCurrentPip} winner={showWinner && playerBCurrentPip > playerACurrentPip} />
           :
           <PlayerControls afinity="plains" currentLife={playerBCurrentLife} setCurrentLife={setPlayerBCurrentLife} />
         }
@@ -121,7 +117,4 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  content: {
-    flex: 1,
-  }
 });

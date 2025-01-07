@@ -17,24 +17,40 @@ const useAfinity = (afinity: Afinity): { color: string, backgroundColor: string 
 
 const styles = StyleSheet.create({
     forest: {
-        color: 'white',
-        backgroundColor: 'green'
+        color: '#000e03',
+        backgroundColor: '#9cd4b0',
     },
     plains: {
-        color: 'black',
-        backgroundColor: 'white',
+        color: '#1b170d',
+        backgroundColor: '#fffbd6',
     },
     island: {
-        color: 'white',
-        backgroundColor: 'blue',
+        color: '#01121c',
+        backgroundColor: '#abe1fa',
     },
     swamp: {
-        color: 'white',
-        backgroundColor: 'black',
+        color: '#0b0406',
+        backgroundColor: '#ccc3c0',
     },
     mountain: {
-        color: 'white',
-        backgroundColor: 'red',
+        color: '#1a0000',
+        backgroundColor: '##f9ac90',
+    },
+    tradeFederation: {
+        color: '#35468f',
+        backgroundColor: '#000'
+    },
+    blobs: {
+        color: '#8dc654',
+        backgroundColor: '#000',
+    },
+    starEmpre: {
+        color: '#fbec1d',
+        backgroundColor: '#000',
+    },
+    machineCult: {
+        color: '#d72d32',
+        backgroundColor: '#000',
     }
 });
 

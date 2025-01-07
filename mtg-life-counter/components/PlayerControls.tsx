@@ -11,7 +11,7 @@ type Props = {
 }
 
 const PlayerControls = ({ afinity, currentLife, setCurrentLife }: Props) => {
-    const _afinity = useAfinity(afinity);
+    const theme = useAfinity(afinity);
     const [count, setCount] = useState<number>(0);
     const [showCount, setShowCount] = useState<boolean>(false);
     const timeoutRef = useRef<any>();
@@ -44,11 +44,11 @@ const PlayerControls = ({ afinity, currentLife, setCurrentLife }: Props) => {
                 <UnaryOperatorButton afinity={afinity} unaryOperator='minus' onPress={onDecrementLife} />
             </View>
             <View style={styles.content}>
-                <Text style={showCount ? [styles.count, afinity === 'plains' ? styles.dark : styles.light] : [styles.count, { opacity: 0 }]}>
+                <Text style={[styles.count, { color: theme.color }, showCount ? { opacity: 1 } : { opacity: 0 }]}>
                     {count > 0 ? "+" : ""} {count}
                 </Text>
                 <Text style={styles.life}>{currentLife}</Text>
-                <Ionicons name="heart" size={32} style={afinity === 'plains' ? styles.dark : styles.light} />
+                <Ionicons name="heart" size={32} color={theme.color} />
             </View>
             <View style={styles.button}>
                 <UnaryOperatorButton afinity={afinity} unaryOperator='plus' onPress={onIncrementLife} />
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
+        elevation: 2,
     },
     button: {
         flex: 1,
@@ -69,25 +70,24 @@ const styles = StyleSheet.create({
     content: {
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
     },
     count: {
         fontSize: 40,
     },
     life: {
         height: '50%',
-        fontSize: 100,
-        color: 'white',
-        textShadowColor: 'black',
-        textShadowRadius: 8,
-        textShadowOffset: { width: 2, height: 2 },
+        fontSize: 104,
+        color: '#fff',
+        textShadowRadius: 4,
+        textShadowColor: '#000',
+        textShadowOffset: {
+            width: -1,
+            height: -1,
+        },
+        shadowOpacity: 1,
+        elevation: 2,
     },
-    light: {
-        color: 'white'
-    },
-    dark: {
-        color: '#616161'
-    }
 });
 
 export default PlayerControls;

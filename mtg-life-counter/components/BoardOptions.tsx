@@ -20,9 +20,11 @@ const BoardOptions = ({ onReset, onRollDice, rolling, onPlayersButtonPressed, on
                     <Ionicons name="dice-outline" style={styles.text} />
                 }
             </Pressable>
-            <Pressable style={styles.button}>
-                <Ionicons name="people-sharp" style={styles.text} />
-            </Pressable>
+            {false &&
+                <Pressable style={styles.button}>
+                    <Ionicons name="people-sharp" style={styles.text} />
+                </Pressable>
+            }
             <Pressable style={styles.button} onPress={onShowLifeOptions}>
                 <Ionicons name="heart-outline" style={styles.text} />
             </Pressable>

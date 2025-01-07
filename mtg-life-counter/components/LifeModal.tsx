@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     content: {
-        backgroundColor: '#424242',
+        width: '85%',
+        backgroundColor: 'rgba(66, 66, 66, 0.95)',
         borderRadius: 8,
         padding: 24,
         margin: 16,
@@ -71,7 +72,6 @@ const styles = StyleSheet.create({
         fontSize: 40,
     },
     life: {
-        flex: 1,
         marginVertical: 16,
         textAlign: 'center',
         color: 'white',
@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     button: {
+        minHeight: 40,
         minWidth: 72,
         padding: 8,
         borderWidth: 1,

@@ -1,6 +1,6 @@
 type Afinity =
-    'forest' | 
-    'plains' | 
-    'island' | 
-    'swamp' | 
+    'forest' |
+    'plains' |
+    'island' |
+    'swamp' |
     'mountain';

@@ -5,7 +5,6 @@ import LifeOptions from "@/components/LifeOptions";
 import { useState } from "react";
 import PlayerControls from "@/components/PlayerControls";
 import Dice from "@/components/Dice";
-import DiceText from "@/components/DiceText";
 
 export default function Index() {
   // Board options
@@ -40,13 +39,15 @@ export default function Index() {
 
   const delay = (milliseconds: number) => new Promise(resolve => setTimeout(resolve, milliseconds));
 
-  const rollDice = async (times: number) => {
-    while (times > 0) {
-      setPlayerACurrentPip(getRandomInt(1, 6));
-      setPlayerBCurrentPip(getRandomInt(1, 6));
-      times -= 1;
-      await delay(250);
+  const rollDice = () => {
+    const set = new Set<number>();
+    while (set.size < 2) {
+      set.add(getRandomInt(1, 6));
     }
+
+    const arr = [...set];
+    setPlayerACurrentPip(arr[0]);
+    setPlayerBCurrentPip(arr[1]);
   }
 
   const onRollDice = async () => {
@@ -55,7 +56,15 @@ export default function Index() {
     }
 
     setRolling(true);
-    await rollDice(5);
+    let rolls = 0;
+    while (rolls < 4) {
+      rollDice();
+      await delay(250);
+      rolls++;
+    }
+
+    rollDice(); // final roll
+
     setShowWinner(true);
 
     await delay(2500);
@@ -86,9 +95,7 @@ export default function Index() {
       <PlayerBoard afinity="swamp" orientation="south">
         {rolling ?
           <View style={styles.content}>
-            <Dice afinity="swamp" pip={playerACurrentPip} />
-            {(showWinner && playerACurrentPip === playerBCurrentPip) && <DiceText text="Draw!" afinity="swamp" />}
-            {(showWinner && playerACurrentPip > playerBCurrentPip) && <DiceText text="Winner!" afinity="swamp" />}
+            <Dice afinity="swamp" pip={playerACurrentPip} winner={showWinner && playerACurrentPip > playerBCurrentPip} />
           </View>
           :
           <PlayerControls afinity="swamp" currentLife={playerACurrentLife} setCurrentLife={setPlayerACurrentLife} />
@@ -99,9 +106,7 @@ export default function Index() {
       <PlayerBoard afinity="plains" orientation="north">
         {rolling ?
           <View style={styles.content}>
-            <Dice afinity="plains" pip={playerBCurrentPip} />
-            {(showWinner && playerBCurrentPip === playerACurrentPip) && <DiceText text="Draw!" afinity="plains" />}
-            {(showWinner && playerBCurrentPip > playerACurrentPip) && <DiceText text="Winner!" afinity="plains" />}
+            <Dice afinity="plains" pip={playerBCurrentPip} winner={showWinner && playerBCurrentPip > playerACurrentPip} />
           </View>
           :
           <PlayerControls afinity="plains" currentLife={playerBCurrentLife} setCurrentLife={setPlayerBCurrentLife} />

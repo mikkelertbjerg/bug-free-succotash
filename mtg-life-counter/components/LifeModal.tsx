@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import CancelButton from "./CancelButton";
+import OkButton from "./OkButton";
 
 type Props = {
     onSetStartingLife: (life: number) => void;
@@ -10,34 +12,34 @@ type Props = {
 const LifeModal = ({ onSetStartingLife, setVisible, visible }: Props) => {
     const [input, setInput] = useState<string>('');
 
-    const onPress = () => {
+    const onOk = () => {
         let n = Number(input);
         if (typeof (n) !== "number") {
             return; // TODO Error message
         }
 
-        setVisible(false);
+        setVisible(!visible);
         onSetStartingLife(n);
+    }
+
+    const onClose = () => {
+        setVisible(!visible);
     }
 
     return (
         <Modal
-            animationType="fade"
+            animationType="slide"
             transparent={true}
             visible={visible}
-            onRequestClose={() => setVisible(false)}
+            onRequestClose={onClose}
         >
             <View style={styles.container}>
                 <View style={styles.content}>
                     <Text style={styles.heading}>Starting life</Text>
                     <TextInput style={styles.life} autoFocus={true} placeholder="0" placeholderTextColor={'white'} keyboardType="number-pad" onChangeText={setInput} />
                     <View style={styles.buttons}>
-                        <Pressable style={[styles.button, styles.cancelButton]} onPress={() => setVisible(false)}>
-                            <Text style={styles.cancelText}>Cancel</Text>
-                        </Pressable>
-                        <Pressable style={[styles.button, styles.okButton]} onPress={onPress}>
-                            <Text style={styles.okText}>Ok</Text>
-                        </Pressable>
+                        <CancelButton onPress={onClose} />
+                        <OkButton onPress={onOk} />
                     </View>
                 </View>
             </View>
@@ -82,29 +84,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    button: {
-        minHeight: 40,
-        minWidth: 72,
-        padding: 8,
-        borderWidth: 1,
-        borderRadius: 8,
-    },
-    okButton: {
-        backgroundColor: 'white',
-        borderColor: '#424242',
-    },
-    okText: {
-        textAlign: 'center',
-        color: '#424242',
-    },
-    cancelButton: {
-        backgroundColor: '#424242',
-        borderColor: 'white'
-    },
-    cancelText: {
-        textAlign: 'center',
-        color: 'white',
-    }
 });
 
 export default LifeModal;

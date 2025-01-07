@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignContent: 'center',
-        backgroundColor: 'rgba(66, 66, 66, 0.75)',
+        backgroundColor: 'rgba(66, 66, 66, 0.25)',
     },
     dice: {
         textAlign: 'center',

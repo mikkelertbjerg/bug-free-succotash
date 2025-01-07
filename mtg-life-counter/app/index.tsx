@@ -7,10 +7,10 @@ import PlayerControls from "@/components/PlayerControls";
 import Dice from "@/components/Dice";
 
 export default function Index() {
-  // Board options
+  // Board
   const [showBoardOptions, setShowBoardOptions] = useState<boolean>(true);
 
-  // Life options
+  // Life
   const [showLifeOptions, setShowLifeOptions] = useState<boolean>(false);
   const [startingLife, setStartingLife] = useState<number>(20);
 
@@ -21,13 +21,11 @@ export default function Index() {
 
   const onSetStartingLife = (life: number) => {
     setStartingLife(life);
-    setPlayerACurrentLife(life);
-    setPlayerBCurrentLife(life);
+    setPlayerALife(life);
+    setPlayerBife(life);
   }
 
-  // Players options
-
-  // Dice options
+  // Dice
   const [rolling, setRolling] = useState<boolean>(false);
   const [showWinner, setShowWinner] = useState<boolean>(false);
 
@@ -46,8 +44,8 @@ export default function Index() {
     }
 
     const arr = [...set];
-    setPlayerACurrentPip(arr[0]);
-    setPlayerBCurrentPip(arr[1]);
+    setPlayerAPip(arr[0]);
+    setPlayerBPip(arr[1]);
   }
 
   const onRollDice = async () => {
@@ -72,39 +70,42 @@ export default function Index() {
   }
 
   // Player A
-  const [playerACurrentLife, setPlayerACurrentLife] = useState<number>(startingLife);
-  const [playerACurrentPip, setPlayerACurrentPip] = useState<number>(0);
+  const [playerAAfinity, setPlayerAAfinity] = useState<Afinity>('plains');
+  const [playerALife, setPlayerALife] = useState<number>(startingLife);
+  const [playerAPip, setPlayerAPip] = useState<number>(0);
 
   // Player B
-  const [playerBCurrentLife, setPlayerBCurrentLife] = useState<number>(startingLife);
-  const [playerBCurrentPip, setPlayerBCurrentPip] = useState<number>(0);
+  const [playerBAfinity, setPlayerBAfinity] = useState<Afinity>('swamp');
+  const [playerBife, setPlayerBife] = useState<number>(startingLife);
+  const [playerBPip, setPlayerBPip] = useState<number>(0);
 
+  // Options
   const onCloseOptions = () => {
     setShowLifeOptions(false);
     setShowBoardOptions(true);
   }
 
   const onReset = () => {
-    setPlayerACurrentLife(startingLife);
-    setPlayerBCurrentLife(startingLife);
+    setPlayerALife(startingLife);
+    setPlayerBife(startingLife);
   }
 
   return (
     <View style={styles.container}>
-      <PlayerBoard afinity="swamp" orientation="south">
+      <PlayerBoard afinity={playerAAfinity} orientation="south">
         {rolling ?
-          <Dice pip={playerACurrentPip} winner={showWinner && playerACurrentPip > playerBCurrentPip} />
+          <Dice pip={playerAPip} winner={showWinner && playerAPip > playerBPip} />
           :
-          <PlayerControls afinity="swamp" currentLife={playerACurrentLife} setCurrentLife={setPlayerACurrentLife} />
+          <PlayerControls afinity={playerAAfinity} setAfinity={setPlayerAAfinity} life={playerALife} setLife={setPlayerALife} />
         }
       </PlayerBoard>
       {showBoardOptions && <BoardOptions onReset={onReset} onRollDice={onRollDice} rolling={rolling} onShowLifeOptions={onLifeButtonPressed} />}
       {showLifeOptions && <LifeOptions onClose={onCloseOptions} onSetStartingLife={onSetStartingLife} />}
-      <PlayerBoard afinity="plains" orientation="north">
+      <PlayerBoard afinity={playerBAfinity} orientation="north">
         {rolling ?
-          <Dice pip={playerBCurrentPip} winner={showWinner && playerBCurrentPip > playerACurrentPip} />
+          <Dice pip={playerBPip} winner={showWinner && playerBPip > playerAPip} />
           :
-          <PlayerControls afinity="plains" currentLife={playerBCurrentLife} setCurrentLife={setPlayerBCurrentLife} />
+          <PlayerControls afinity={playerBAfinity} setAfinity={setPlayerBAfinity} life={playerBife} setLife={setPlayerBife} />
         }
       </PlayerBoard>
     </View>

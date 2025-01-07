@@ -1,6 +1,33 @@
 import { StyleSheet } from "react-native";
+const mtg_forest = require('@/assets/images/s_mtg_forest.png');
+const mtg_island = require('@/assets/images/s_mtg_island.png');
+const mtg_mountain = require('@/assets/images/s_mtg_mountain.png');
+const mtg_plains = require('@/assets/images/s_mtg_plains.png');
+const mtg_swamp = require('@/assets/images/s_mtg_swamp.png');
 
-const useAfinity = (afinity: Afinity): { color: string, backgroundColor: string } => {
+const useAfinity = (afinity: Afinity): { styles: { color: string, backgroundColor: string }, sources: any } => {
+    return {
+        styles: getStyles(afinity),
+        sources: getSources(afinity),
+    };
+}
+
+const getSources = (afinity: Afinity) => {
+    switch (afinity) {
+        case "forest":
+            return mtg_forest;
+        case "island":
+            return mtg_island;
+        case "plains":
+            return mtg_plains;
+        case "swamp":
+            return mtg_swamp;
+        case "mountain":
+            return mtg_mountain;
+    }
+}
+
+const getStyles = (afinity: Afinity) => {
     switch (afinity) {
         case "forest":
             return styles.forest;
@@ -34,7 +61,7 @@ const styles = StyleSheet.create({
     },
     mountain: {
         color: '#1a0000',
-        backgroundColor: '##f9ac90',
+        backgroundColor: '#f9ac90',
     },
     tradeFederation: {
         color: '#35468f',

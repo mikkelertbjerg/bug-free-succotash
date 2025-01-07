@@ -1,23 +1,27 @@
 import { useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Ionicons from '@expo/vector-icons/Ionicons';
 import UnaryOperatorButton from "./UnaryOperatorButton";
 import useAfinity from "@/hooks/useAfinity";
+import AfinityButton from "./AfinityButton";
+import AfinityModal from "./AfinityModal";
 
 type Props = {
     afinity: Afinity;
-    currentLife: number;
-    setCurrentLife: (life: number) => void;
+    setAfinity: (afinity: Afinity) => void;
+    life: number;
+    setLife: (life: number) => void;
 }
 
-const PlayerControls = ({ afinity, currentLife, setCurrentLife }: Props) => {
-    const theme = useAfinity(afinity);
+const PlayerControls = ({ afinity, setAfinity, life, setLife, }: Props) => {
+    const afinityTheme = useAfinity(afinity);
     const [count, setCount] = useState<number>(0);
     const [showCount, setShowCount] = useState<boolean>(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
+
     const timeoutRef = useRef<any>();
 
     const onIncrementLife = () => {
-        setCurrentLife(currentLife + 1);
+        setLife(life + 1);
         setCount(count + 1);
         setShowCount(true);
         clearTimeout(timeoutRef.current)
@@ -28,7 +32,7 @@ const PlayerControls = ({ afinity, currentLife, setCurrentLife }: Props) => {
     }
 
     const onDecrementLife = () => {
-        setCurrentLife(currentLife - 1);
+        setLife(life - 1);
         setCount(count - 1);
         setShowCount(true);
         clearTimeout(timeoutRef.current)
@@ -40,17 +44,18 @@ const PlayerControls = ({ afinity, currentLife, setCurrentLife }: Props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.button}>
+            <View style={{ flex: 1 }}>
                 <UnaryOperatorButton afinity={afinity} unaryOperator='minus' onPress={onDecrementLife} />
             </View>
             <View style={styles.content}>
-                <Text style={[styles.count, { color: theme.color }, showCount ? { opacity: 1 } : { opacity: 0 }]}>
+                <Text style={[styles.count, { color: afinityTheme.styles.color }, showCount ? { opacity: 1 } : { opacity: 0 }]}>
                     {count > 0 ? "+" : ""} {count}
                 </Text>
-                <Text style={styles.life}>{currentLife}</Text>
-                <Ionicons name="heart" size={32} color={theme.color} />
+                <Text style={styles.life}>{life}</Text>
+                <AfinityButton afinity={afinity} onPress={() => setShowModal(true)} />
+                <AfinityModal visible={showModal} setVisibility={setShowModal} setAfinity={setAfinity} />
             </View>
-            <View style={styles.button}>
+            <View style={{ flex: 1 }}>
                 <UnaryOperatorButton afinity={afinity} unaryOperator='plus' onPress={onIncrementLife} />
             </View>
 
@@ -60,14 +65,11 @@ const PlayerControls = ({ afinity, currentLife, setCurrentLife }: Props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'row',
-        elevation: 2,
-    },
-    button: {
         flex: 1,
     },
     content: {
+        flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-evenly',
@@ -76,17 +78,14 @@ const styles = StyleSheet.create({
         fontSize: 40,
     },
     life: {
-        height: '50%',
         fontSize: 104,
         color: '#fff',
-        textShadowRadius: 4,
+        textShadowRadius: 8,
         textShadowColor: '#000',
         textShadowOffset: {
             width: -1,
             height: -1,
         },
-        shadowOpacity: 1,
-        elevation: 2,
     },
 });
 

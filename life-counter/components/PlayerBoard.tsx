@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     north: {
+        transform: [{ rotate: '0deg' }]
     },
     east: {
         transform: [{ rotate: '90deg' }]

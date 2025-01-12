@@ -58,7 +58,6 @@ const PlayerControls = ({ afinity, setAfinity, life, setLife, }: Props) => {
             <View style={{ flex: 1 }}>
                 <UnaryOperatorButton afinity={afinity} unaryOperator='plus' onPress={onIncrementLife} />
             </View>
-
         </View>
     );
 }

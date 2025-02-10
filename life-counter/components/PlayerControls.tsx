@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Animated, Easing, StyleSheet, Text, useAnimatedValue, View } from "react-native";
+import { Animated, StyleSheet, useAnimatedValue, View } from "react-native";
 import UnaryOperatorButton from "./UnaryOperatorButton";
 import useAfinity from "@/hooks/useAfinity";
 import AfinityButton from "./AfinityButton";
@@ -16,8 +16,8 @@ const PlayerControls = ({ afinity, setAfinity, life, setLife, }: Props) => {
     const afinityTheme = useAfinity(afinity);
     const [count, setCount] = useState<number>(0);
 
-    const opacityAnimation = useAnimatedValue(0);//useRef(new Animated.Value(0)).current;
-    const translateYAnimation = useAnimatedValue(10); //useRef(new Animated.Value(10)).current;
+    const opacityAnimation = useAnimatedValue(0);
+    const translateYAnimation = useAnimatedValue(10);
     const isAnimating = useRef(false);
 
     const [showModal, setShowModal] = useState<boolean>(false);

@@ -1,10 +1,11 @@
 import PlayerBoard from "@/components/PlayerBoard";
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import BoardOptions from "@/components/BoardOptions";
 import LifeOptions from "@/components/LifeOptions";
 import { useState } from "react";
 import PlayerControls from "@/components/PlayerControls";
 import Dice from "@/components/Dice";
+import useAfinity from "@/hooks/useAfinity";
 
 export default function Index() {
   // Board
@@ -79,6 +80,9 @@ export default function Index() {
   const [playerBife, setPlayerBife] = useState<number>(startingLife);
   const [playerBPip, setPlayerBPip] = useState<number>(0);
 
+  // Status bar
+  const statusBarBackgroundColor = useAfinity(playerAAfinity).styles.backgroundColor;
+
   // Options
   const onCloseOptions = () => {
     setShowLifeOptions(false);
@@ -92,6 +96,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={statusBarBackgroundColor} barStyle={'dark-content'}/>
       <PlayerBoard afinity={playerAAfinity} orientation="south">
         {rolling ?
           <Dice pip={playerAPip} winner={showWinner && playerAPip > playerBPip} />
@@ -109,7 +114,6 @@ export default function Index() {
         }
       </PlayerBoard>
     </View>
-
   );
 }
 

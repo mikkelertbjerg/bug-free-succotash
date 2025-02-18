@@ -129,8 +129,8 @@ const styles = StyleSheet.create({
         textShadowRadius: 8,
         textShadowColor: '#000',
         textShadowOffset: {
-            width: -1,
-            height: -1,
+            width: 1,
+            height: 1,
         },
     },
 });

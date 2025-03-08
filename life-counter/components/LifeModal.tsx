@@ -28,7 +28,7 @@ const LifeModal = ({ onSetStartingLife, setVisible, visible }: Props) => {
 
     return (
         <Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             visible={visible}
             onRequestClose={onClose}
@@ -36,7 +36,13 @@ const LifeModal = ({ onSetStartingLife, setVisible, visible }: Props) => {
             <View style={styles.container}>
                 <View style={styles.content}>
                     <Text style={styles.heading}>Starting life</Text>
-                    <TextInput style={styles.life} autoFocus={true} placeholder="0" placeholderTextColor={'white'} keyboardType="number-pad" onChangeText={setInput} />
+                    <TextInput
+                        style={styles.life}
+                        autoFocus={true}
+                        placeholder="0"
+                        placeholderTextColor={'white'}
+                        keyboardType="number-pad"
+                        onChangeText={setInput} />
                     <View style={styles.buttons}>
                         <CancelButton onPress={onClose} />
                         <OkButton onPress={onOk} />

@@ -1,10 +1,11 @@
 import PlayerBoard from "@/components/PlayerBoard";
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import BoardOptions from "@/components/BoardOptions";
 import LifeOptions from "@/components/LifeOptions";
 import { useState } from "react";
 import PlayerControls from "@/components/PlayerControls";
 import Dice from "@/components/Dice";
+import useAfinity from "@/hooks/useAfinity";
 
 export default function Index() {
   // Board
@@ -109,7 +110,6 @@ export default function Index() {
         }
       </PlayerBoard>
     </View>
-
   );
 }
 

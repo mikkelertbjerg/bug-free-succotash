@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { Animated, StyleSheet, useAnimatedValue, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import Animated, { cancelAnimation, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import UnaryOperatorButton from "./UnaryOperatorButton";
 import useAfinity from "@/hooks/useAfinity";
 import AfinityButton from "./AfinityButton";
@@ -15,69 +16,55 @@ type Props = {
 const PlayerControls = ({ afinity, setAfinity, life, setLife, }: Props) => {
     const afinityTheme = useAfinity(afinity);
     const [count, setCount] = useState<number>(0);
-
-    const opacityAnimation = useAnimatedValue(0);
-    const translateYAnimation = useAnimatedValue(10);
-
-    const isAnimating = useRef(false);
-
     const [showModal, setShowModal] = useState<boolean>(false);
 
+    // // Shared animation values
+    const opacityAnimation = useSharedValue<number>(0);
+    const translateYAnimation = useSharedValue<number>(10);
+
+    // Track fade-out timeout
+    const fadeOutTimeout = useRef<NodeJS.Timeout | null>(null);
+    const isAnimating = useRef<boolean>(false); // Prevent premature count reset
+
+
     const onCountChange = () => {
-        if (!isAnimating.current) {
-            // If no animations are running, play fade-in and travel-up animation
+        // Mark animation as active
+        isAnimating.current = true;
 
-            isAnimating.current = true; // Mark animations as running
-            Animated.parallel([
-                Animated.timing(opacityAnimation, {
-                    toValue: 1, // Fully visible
-                    duration: 250,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(translateYAnimation, {
-                    toValue: 0, // Move to the original position
-                    duration: 250,
-                    useNativeDriver: true,
-                }),
-            ]).start(() => {
-                // Start fade-out sequence after the initial animation completes
-                startFadeOut();
-            });
-        } else {
-            // If animations are running, reset and start fade-out directly
-            opacityAnimation.stopAnimation();
-            translateYAnimation.stopAnimation();
-            opacityAnimation.setValue(1);
-            translateYAnimation.setValue(0);
-            startFadeOut();
+        // Cancel any running animations
+        cancelAnimation(opacityAnimation);
+        cancelAnimation(translateYAnimation);
+
+        // Clear previous timeout to prevent early fade-out
+        if (fadeOutTimeout.current) {
+            clearTimeout(fadeOutTimeout.current);
         }
-    }
 
-    const startFadeOut = () => {
-        // Start the fade-out sequence
-        Animated.parallel([
-            Animated.timing(opacityAnimation, {
-                toValue: 0, // Fully invisible
-                duration: 500,
-                delay: 2000, // Wait 2 seconds before starting fade-out
-                useNativeDriver: true,
-            }),
-            Animated.timing(translateYAnimation, {
-                toValue: 10, // Move down slightly
-                duration: 500,
-                delay: 2000,
-                useNativeDriver: true,
-            }),
-        ]).start(() => {
-            // Check if opacity is 0 before resetting the count
-            opacityAnimation.stopAnimation(value => {
-                if (value === 0) {
-                    setCount(0); // Reset count only when opacity is fully 0
-                    isAnimating.current = false; // Mark animation as complete
+        // Start fade-in animation
+        opacityAnimation.value = withTiming(1, { duration: 250 });
+        translateYAnimation.value = withTiming(0, { duration: 250 });
+
+        // Start fade-out delay
+        fadeOutTimeout.current = setTimeout(() => {
+            opacityAnimation.value = withTiming(0, { duration: 500 }, (finished) => {
+                // Only reset count if no new animation started
+                if (finished && opacityAnimation.value === 0) {
+                    // Ensure this runs on the JS thread
+                    runOnJS(setCount)(0);
                 }
-            })
-        });
-    }
+            });
+            translateYAnimation.value = withTiming(10, { duration: 500 });
+
+            // Allow reset only if no new animation started
+            isAnimating.current = false;
+        }, 2000);
+    };
+
+    // Animated styles
+    const animatedStyles = useAnimatedStyle(() => ({
+        opacity: opacityAnimation.value,
+        transform: [{ translateY: translateYAnimation.value }],
+    }));
 
     const onIncrementLife = () => {
         setLife(life + 1);
@@ -98,19 +85,25 @@ const PlayerControls = ({ afinity, setAfinity, life, setLife, }: Props) => {
             </View>
             <View style={styles.content}>
                 <Animated.Text
-                    style={[styles.count, { color: afinityTheme.styles.color }, {
-                        opacity: opacityAnimation,
-                        transform: [{ translateY: translateYAnimation }]
-                    }]}>
+                    style={[
+                        styles.count,
+                        { color: afinityTheme.styles.color },
+                        animatedStyles
+                    ]}
+                >
                     {count > 0 ? "+" : ""} {count}
                 </Animated.Text>
                 <Animated.Text style={styles.life}>{life}</Animated.Text>
                 <AfinityButton afinity={afinity} onPress={() => setShowModal(true)} />
-                <AfinityModal visible={showModal} setVisibility={setShowModal} setAfinity={setAfinity} />
             </View>
             <View style={{ flex: 1 }}>
                 <UnaryOperatorButton afinity={afinity} unaryOperator='plus' onPress={onIncrementLife} />
             </View>
+            {showModal &&
+                <View style={StyleSheet.absoluteFill}>
+                    <AfinityModal visible={showModal} setVisibility={setShowModal} setAfinity={setAfinity} />
+                </View>
+            }
         </View>
     );
 }
@@ -136,8 +129,8 @@ const styles = StyleSheet.create({
         textShadowRadius: 8,
         textShadowColor: '#000',
         textShadowOffset: {
-            width: -1,
-            height: -1,
+            width: 1,
+            height: 1,
         },
     },
 });

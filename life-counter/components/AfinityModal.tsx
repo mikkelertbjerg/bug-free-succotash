@@ -6,7 +6,6 @@ type Props = {
     visible: boolean;
     setVisibility: (visibile: boolean) => void;
     setAfinity: (afinity: Afinity) => void;
-
 }
 
 const AfinityModal = ({ visible, setVisibility, setAfinity }: Props) => {
@@ -23,9 +22,9 @@ const AfinityModal = ({ visible, setVisibility, setAfinity }: Props) => {
     return (
         <Modal
             transparent={true}
-            animationType='slide'
+            animationType='fade'
             visible={visible}
-            onRequestClose={onClose}
+            onRequestClose={() => setVisibility(false)}
         >
             <View style={styles.container}>
                 <View style={styles.content}>
@@ -50,23 +49,17 @@ const AfinityModal = ({ visible, setVisibility, setAfinity }: Props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
     content: {
-        width: '85%',
-        backgroundColor: 'rgba(66, 66, 66, 0.95)',
+        width: '80%',
+        backgroundColor: 'rgba(66, 66, 66, 1)',
         borderRadius: 8,
-        padding: 24,
-        margin: 16,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
+        padding: 20,
+        alignItems: 'center',
+        elevation: 10,
     },
     button: {
         padding: 16,

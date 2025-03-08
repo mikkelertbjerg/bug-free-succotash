@@ -18,11 +18,10 @@ const PlayerControls = ({ afinity, setAfinity, life, setLife, }: Props) => {
 
     const opacityAnimation = useAnimatedValue(0);
     const translateYAnimation = useAnimatedValue(10);
+
     const isAnimating = useRef(false);
 
     const [showModal, setShowModal] = useState<boolean>(false);
-
-    const timeoutRef = useRef<any>();
 
     const onCountChange = () => {
         if (!isAnimating.current) {
@@ -84,23 +83,12 @@ const PlayerControls = ({ afinity, setAfinity, life, setLife, }: Props) => {
         setLife(life + 1);
         setCount(previous => previous + 1);
         onCountChange()
-
-        // 
-        // timeoutRef.current = setTimeout(() => {
-        //     setCount(0);
-        // }, 2500);
     }
 
     const onDecrementLife = () => {
         setLife(life - 1);
-
         setCount(previous => previous - 1);
         onCountChange()
-
-        // clearTimeout(timeoutRef.current)
-        // timeoutRef.current = setTimeout(() => {
-        //     setCount(0);
-        // }, 2500);
     }
 
     return (

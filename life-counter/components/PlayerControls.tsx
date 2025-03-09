@@ -2,19 +2,19 @@ import { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, { cancelAnimation, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import UnaryOperatorButton from "./UnaryOperatorButton";
-import useAfinity from "@/hooks/useAfinity";
+import useTheme from "@/hooks/useTheme";
 import AfinityButton from "./AfinityButton";
 import AfinityModal from "./AfinityModal";
 
 type Props = {
-    afinity: Afinity;
-    setAfinity: (afinity: Afinity) => void;
+    afinity: Theme;
+    setAfinity: (afinity: Theme) => void;
     life: number;
     setLife: (life: number) => void;
 }
 
 const PlayerControls = ({ afinity, setAfinity, life, setLife, }: Props) => {
-    const afinityTheme = useAfinity(afinity);
+    const afinityTheme = useTheme(afinity);
     const [count, setCount] = useState<number>(0);
     const [showModal, setShowModal] = useState<boolean>(false);
 

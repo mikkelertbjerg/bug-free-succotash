@@ -1,13 +1,13 @@
-import useAfinity from "@/hooks/useAfinity";
+import useTheme from "@/hooks/useTheme";
 import { Image, Pressable, StyleSheet, TouchableHighlight } from "react-native";
 
 type Props = {
-    afinity: Afinity;
+    afinity: Theme;
     onPress: () => void;
     style?: {};
 }
 const AfinityButton = ({ afinity, onPress, style }: Props) => {
-    const theme = useAfinity(afinity);
+    const theme = useTheme(afinity);
 
     return (
         <Pressable

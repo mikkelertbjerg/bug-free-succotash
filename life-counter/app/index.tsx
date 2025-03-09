@@ -5,7 +5,7 @@ import LifeOptions from "@/components/LifeOptions";
 import { useState } from "react";
 import PlayerControls from "@/components/PlayerControls";
 import Dice from "@/components/Dice";
-import useAfinity from "@/hooks/useAfinity";
+import useTheme from "@/hooks/useTheme";
 
 export default function Index() {
   // Board
@@ -71,12 +71,12 @@ export default function Index() {
   }
 
   // Player A
-  const [playerAAfinity, setPlayerAAfinity] = useState<Afinity>('plains');
+  const [playerAAfinity, setPlayerAAfinity] = useState<Theme>('plains');
   const [playerALife, setPlayerALife] = useState<number>(startingLife);
   const [playerAPip, setPlayerAPip] = useState<number>(0);
 
   // Player B
-  const [playerBAfinity, setPlayerBAfinity] = useState<Afinity>('swamp');
+  const [playerBAfinity, setPlayerBAfinity] = useState<Theme>('swamp');
   const [playerBife, setPlayerBife] = useState<number>(startingLife);
   const [playerBPip, setPlayerBPip] = useState<number>(0);
 
@@ -93,7 +93,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <PlayerBoard afinity={playerAAfinity} orientation="south">
+      <PlayerBoard theme={playerAAfinity} orientation="south">
         {rolling ?
           <Dice pip={playerAPip} winner={showWinner && playerAPip > playerBPip} />
           :
@@ -102,7 +102,7 @@ export default function Index() {
       </PlayerBoard>
       {showBoardOptions && <BoardOptions onReset={onReset} onRollDice={onRollDice} rolling={rolling} onShowLifeOptions={onLifeButtonPressed} />}
       {showLifeOptions && <LifeOptions onClose={onCloseOptions} onSetStartingLife={onSetStartingLife} />}
-      <PlayerBoard afinity={playerBAfinity} orientation="north">
+      <PlayerBoard theme={playerBAfinity} orientation="north">
         {rolling ?
           <Dice pip={playerBPip} winner={showWinner && playerBPip > playerAPip} />
           :

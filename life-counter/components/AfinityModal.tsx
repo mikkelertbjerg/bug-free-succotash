@@ -5,12 +5,12 @@ import CancelButton from "./CancelButton";
 type Props = {
     visible: boolean;
     setVisibility: (visibile: boolean) => void;
-    setAfinity: (afinity: Afinity) => void;
+    setAfinity: (afinity: Theme) => void;
 }
 
 const AfinityModal = ({ visible, setVisibility, setAfinity }: Props) => {
 
-    const onSetAfinity = (afinity: Afinity) => {
+    const onSetAfinity = (afinity: Theme) => {
         setAfinity(afinity);
         setVisibility(!visible);
     }

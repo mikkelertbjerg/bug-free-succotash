@@ -1,4 +1,4 @@
-import useAfinity from '@/hooks/useAfinity';
+import useTheme from '@/hooks/useTheme';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState } from 'react';
@@ -6,12 +6,12 @@ import { Pressable, StyleSheet, TouchableHighlight, View } from 'react-native';
 
 type Props = {
     unaryOperator: 'plus' | 'minus';
-    afinity: Afinity;
+    afinity: Theme;
     onPress: () => void;
 }
 const UnaryOperatorButton = ({ unaryOperator, afinity, onPress }: Props) => {
     const [pressed, setPressed] = useState<boolean>(false);
-    const theme = useAfinity(afinity);
+    const theme = useTheme(afinity);
     return (
         <Pressable
             onPressIn={() => setPressed(true)}

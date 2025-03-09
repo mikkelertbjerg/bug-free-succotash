@@ -1,10 +1,10 @@
 import { PropsWithChildren, useContext } from "react";
 import { StyleSheet, View } from "react-native";
-
-import useTheme from "@/hooks/useTheme";
+import { Player } from "@/types/player";
+import { useThemeContext } from "@/context/ThemeContext";
 
 type Props = PropsWithChildren<{
-    theme: Theme,
+    player: Player,
     orientation: Orientation,
 }>;
 
@@ -15,11 +15,12 @@ const orientations = {
     west: { transform: [{ rotate: '270deg' }] },
 }
 
-const PlayerBoard = ({ theme, orientation, children }: Props) => {
-    const { themeStyles } = useTheme(theme);
+const PlayerBoard = ({ player, orientation, children }: Props) => {
+    const { playerThemes } = useThemeContext(); // Get full theme data
+    const theme = playerThemes[player]; // Get this player's full theme
 
     return (
-        <View style={[styles.board, themeStyles, orientations[orientation]]}>
+        <View style={[styles.board, theme.styles, orientations[orientation]]}>
             {children}
         </View>
     )

@@ -5,7 +5,6 @@ import LifeOptions from "@/components/LifeOptions";
 import { useState } from "react";
 import PlayerControls from "@/components/PlayerControls";
 import Dice from "@/components/Dice";
-import useTheme from "@/hooks/useTheme";
 
 export default function Index() {
   // Board
@@ -23,7 +22,7 @@ export default function Index() {
   const onSetStartingLife = (life: number) => {
     setStartingLife(life);
     setPlayerALife(life);
-    setPlayerBife(life);
+    setPlayerBLife(life);
   }
 
   // Dice
@@ -71,13 +70,11 @@ export default function Index() {
   }
 
   // Player A
-  const [playerAAfinity, setPlayerAAfinity] = useState<Theme>('plains');
   const [playerALife, setPlayerALife] = useState<number>(startingLife);
   const [playerAPip, setPlayerAPip] = useState<number>(0);
 
   // Player B
-  const [playerBAfinity, setPlayerBAfinity] = useState<Theme>('swamp');
-  const [playerBife, setPlayerBife] = useState<number>(startingLife);
+  const [playerBife, setPlayerBLife] = useState<number>(startingLife);
   const [playerBPip, setPlayerBPip] = useState<number>(0);
 
   // Options
@@ -88,25 +85,31 @@ export default function Index() {
 
   const onReset = () => {
     setPlayerALife(startingLife);
-    setPlayerBife(startingLife);
+    setPlayerBLife(startingLife);
   }
 
   return (
     <View style={styles.container}>
-      <PlayerBoard theme={playerAAfinity} orientation="south">
+      <PlayerBoard player={"playerA"} orientation="south">
         {rolling ?
           <Dice pip={playerAPip} winner={showWinner && playerAPip > playerBPip} />
           :
-          <PlayerControls afinity={playerAAfinity} setAfinity={setPlayerAAfinity} life={playerALife} setLife={setPlayerALife} />
+          <PlayerControls
+            player={"playerA"}
+            life={playerALife}
+            setLife={setPlayerALife} />
         }
       </PlayerBoard>
       {showBoardOptions && <BoardOptions onReset={onReset} onRollDice={onRollDice} rolling={rolling} onShowLifeOptions={onLifeButtonPressed} />}
       {showLifeOptions && <LifeOptions onClose={onCloseOptions} onSetStartingLife={onSetStartingLife} />}
-      <PlayerBoard theme={playerBAfinity} orientation="north">
+      <PlayerBoard player={"playerB"} orientation="north">
         {rolling ?
           <Dice pip={playerBPip} winner={showWinner && playerBPip > playerAPip} />
           :
-          <PlayerControls afinity={playerBAfinity} setAfinity={setPlayerBAfinity} life={playerBife} setLife={setPlayerBife} />
+          <PlayerControls
+            player={"playerB"}
+            life={playerBife}
+            setLife={setPlayerBLife} />
         }
       </PlayerBoard>
     </View>

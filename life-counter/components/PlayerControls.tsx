@@ -2,19 +2,21 @@ import { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, { cancelAnimation, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import UnaryOperatorButton from "./UnaryOperatorButton";
-import useTheme from "@/hooks/useTheme";
-import AfinityButton from "./AfinityButton";
-import AfinityModal from "./AfinityModal";
+import ThemeButton from "./ThemeButton";
+import ThemeModal from "./ThemeModal";
+import { Player } from "@/types/player";
+import { useThemeContext } from "@/context/ThemeContext";
 
 type Props = {
-    afinity: Theme;
-    setAfinity: (afinity: Theme) => void;
+    player: Player;
     life: number;
     setLife: (life: number) => void;
 }
 
-const PlayerControls = ({ afinity, setAfinity, life, setLife, }: Props) => {
-    const afinityTheme = useTheme(afinity);
+const PlayerControls = ({ player, life, setLife, }: Props) => {
+    const { playerThemes } = useThemeContext();
+    const theme = playerThemes[player]; // Get player's theme
+
     const [count, setCount] = useState<number>(0);
     const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -81,27 +83,27 @@ const PlayerControls = ({ afinity, setAfinity, life, setLife, }: Props) => {
     return (
         <View style={styles.container}>
             <View style={{ flex: 1 }}>
-                <UnaryOperatorButton afinity={afinity} unaryOperator='minus' onPress={onDecrementLife} />
+                <UnaryOperatorButton unaryOperator='minus' onPress={onDecrementLife} />
             </View>
             <View style={styles.content}>
                 <Animated.Text
                     style={[
                         styles.count,
-                        { color: afinityTheme.styles.color },
+                        theme.styles,
                         animatedStyles
                     ]}
                 >
                     {count > 0 ? "+" : ""} {count}
                 </Animated.Text>
                 <Animated.Text style={styles.life}>{life}</Animated.Text>
-                <AfinityButton afinity={afinity} onPress={() => setShowModal(true)} />
+                <ThemeButton source={theme.source} onPress={() => setShowModal(true)} />
             </View>
             <View style={{ flex: 1 }}>
-                <UnaryOperatorButton afinity={afinity} unaryOperator='plus' onPress={onIncrementLife} />
+                <UnaryOperatorButton unaryOperator='plus' onPress={onIncrementLife} />
             </View>
             {showModal &&
                 <View style={StyleSheet.absoluteFill}>
-                    <AfinityModal visible={showModal} setVisibility={setShowModal} setAfinity={setAfinity} />
+                    <ThemeModal visible={showModal} setVisibility={setShowModal} player={player} />
                 </View>
             }
         </View>

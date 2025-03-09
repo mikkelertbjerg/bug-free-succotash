@@ -1,17 +1,14 @@
-import useTheme from '@/hooks/useTheme';
+import { Player } from '@/types/player';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState } from 'react';
 import { Pressable, StyleSheet, TouchableHighlight, View } from 'react-native';
 
 type Props = {
     unaryOperator: 'plus' | 'minus';
-    afinity: Theme;
     onPress: () => void;
 }
-const UnaryOperatorButton = ({ unaryOperator, afinity, onPress }: Props) => {
+const UnaryOperatorButton = ({ unaryOperator, onPress }: Props) => {
     const [pressed, setPressed] = useState<boolean>(false);
-    const theme = useTheme(afinity);
     return (
         <Pressable
             onPressIn={() => setPressed(true)}
@@ -30,7 +27,6 @@ const UnaryOperatorButton = ({ unaryOperator, afinity, onPress }: Props) => {
                         (unaryOperator === 'plus' ? 'pluscircle' : 'minuscircle') :
                         (unaryOperator === 'plus' ? 'pluscircleo' : 'minuscircleo')}
                     size={40}
-                    color={theme.styles.color}
                 />
             </View>
         </Pressable>

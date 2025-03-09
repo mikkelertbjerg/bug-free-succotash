@@ -1,13 +1,11 @@
-import useTheme from "@/hooks/useTheme";
 import { Image, Pressable, StyleSheet, TouchableHighlight } from "react-native";
 
 type Props = {
-    afinity: Theme;
+    source: any;
     onPress: () => void;
     style?: {};
 }
-const AfinityButton = ({ afinity, onPress, style }: Props) => {
-    const theme = useTheme(afinity);
+const ThemeButton = ({ source, onPress, style }: Props) => {
 
     return (
         <Pressable
@@ -16,8 +14,8 @@ const AfinityButton = ({ afinity, onPress, style }: Props) => {
             <Image
                 style={{ height: 48, width: 48 }}
                 resizeMode="contain"
-                source={theme.sources} />
+                source={source} />
         </Pressable>);
 }
 
-export default AfinityButton;
+export default ThemeButton;
